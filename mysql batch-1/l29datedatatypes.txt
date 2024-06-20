@@ -1,0 +1,104 @@
+=>Date Data Types
+
+Data Type                           Description
+Date                                A date, Format: YYYY-MM-DD .The supported range is from '1000-01-01' to '9999-12-31'
+DATETIME                            A date and time combination. Format YYYY-MM-DD hh:mm:ss. The suppoert range is from  0 to 24 hr
+TIMESTAMP                           A timestamp. Format YY-MM-DD hh:mm:ss
+TIME                                A time. Format hh:mm:ss 
+YEAR                                A year with four-digit format
+
+
+------------------------------------------------------
+
+=>EXERCISE
+
+Eg: Get current data (2023-12-17)
+
+SELECT CURRENT_DATE();
+SELECT CURDATE();
+
+Eg. Get Current Time (2023-12-17)
+
+SELECT CURRENT_TIME();
+SELECT CURTIME();
+
+Eg. Get Current datetime (2023-12-23 07:)
+SELECT NOW();
+SELECT CURRENT_TIMESTAMP();
+SELECT CURRENT_TIMESTAMP;
+SELECT SYSDATE();
+
+=>INTERVAL
+
+*result 2023-12-23 07:20:40 2022-12-23 07:20:40
+SELECT NOW(), NOW() - INTERVAL 1 YEAR;
+SELECT NOW()- INTERVAL 1 YEAR;
+SELECT NOW(), NOW() - INTERVAL 2 YEAR;
+
+*result 2023-12-23 07:29:25 2022-12-23 07:29:25
+SELECT NOW(), NOW() - INTERAVL 1 MONTH;
+SELECT NOW(), NOW() - INTERVAL 12 MONTH;
+
+reslut* 2023-12-23 07:31:09 2023-12-30 07:31:09
+SELECT NOW(), NOW() - INTERVAL - 1 WEEK;
+
+reslut* 2023-12-23 07:31:09 2023-12-24 07:31:09
+SELECT NOW(), NOW() - INTERVAL - 1 DAY;
+
+reslut* 2023-12-23 07:31:09 2023-12-23 08:31:09
+SELECT NOW(), NOW() - INTERVAL - 1 HOUR;
+
+----------------------------------------------------------
+=>LAST_DATE
+
+SELECT DAY(NOW());
+
+*result 31
+SELECT DAY(LAST_DAY(NOW()));
+SELECT DAY(LAST_DAY(CURRENT_DATE));
+SELECT DAY(LAST_DAY(CURDATE()));
+SELECT DAY(LAST_DAY(CURRENT_TIMESTAMP));
+
+
+*result 30
+SELECT DAY(LAST_DAY(NOW() - INTERAVL 1 MONTH))
+SELECT DAY(LAST_DAY(CURRENT_DATE() - INTERAVL 1 MONTH))
+SELECT DAY(LAST_DAY(CURDATE() - INTERAVL 1 MONTH))
+SELECT DAY(LAST_DAY(CURRENT_TIMESTAMP - INTERAVL 1 MONTH))
+SELECT DAY(LAST_DAY(NOW() - 1));
+
+*result 30
+SELECT DAY(LAST_DAY(NOW() + INTERAVL 1 MONTH))
+SELECT DAY(LAST_DAY(CURRENT_DATE() + INTERAVL 1 MONTH))
+SELECT DAY(LAST_DAY(CURDATE() + INTERAVL 1 MONTH))
+SELECT DAY(LAST_DAY(CURRENT_TIMESTAMP + INTERAVL 1 MONTH))
+SELECT DAY(LAST_DAY(NOW() + 1));
+
+=>DATE_FROMAT(date,format)
+SELECT DATE_FROMAT(NOW()-INTERAVL 1 MONTH, '%yY-%m-01);
+SELECT DATE_FROMAT(CURRENT_TIMESTAMP-INTERAVL 1 MONTH, '%yY-%m-01);
+
+23DF
+
+INSERT INTO feedbacks(content) VALUES(`this is so funny`),('how sweet'),('how wonderful'),('pretty good');
+INSERT INTO feedbacks(content) VALUES('hello how are you'),('so nice'),('so sweet'),('it is amizaing');
+
+SELECT * FROM feedbacks;
+
+UPDATE feedbacks SET content="Bleh...Bleh...Bleh..."
+WHERE content = "how sweet";
+
+SELECT * FROM feedbacks;
+
+CREATE TABLE IF NOT EXISTS advices(
+    content VARCHAR(100),
+    create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+DESC advices;
+
+INSERT INTO advices SET content="Blen...Bleh...Bleh..."
+WHERE content = "how sweet";
+
+SELECT * FROM advices;

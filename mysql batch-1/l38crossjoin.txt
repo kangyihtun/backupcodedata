@@ -1,0 +1,43 @@
+=>JOIN
+
+1.INNER JOIN (or simple join)
+2.LEFT OUTER JOIN JOIN (or LEFT JOIN)
+3.RIGHT OUTER JOIN JOIN (or RIGHT JOIN)
+4.FUL JOIN
+
+NOTE: Relation Basic  Note
+1. ONE to One Relationship
+2. ONE to Many Relationship
+3. Many to Many Relationship
+
+
+-------------------------------------------------------------
+
+=>Sub Query
+
+SELECT * FROM buyers;
+SELECT * FROM orders;
+
+SELECT * FROM orders WHERE lastname = "su";
+SELECT * FROM buyers WHERE buyers_id = 3;
+
+
+
+SELECT * FROM orders WHERE buyers_id = (
+    SELECT * FROM buyers WHERE lastname = "su"
+);
+
+ERROR , coz return values are  // 1 17
+SELECT * FROM orders WHERE buyers_id = (
+    SELECT * FROM buyers WHERE lastname = "aung";
+);
+
+-------------------------------------------------------------
+
+=>Cross Join
+
+SELECT * FROM buyers;
+SELECT * FROM orders;
+
+SELECT * FROM buyers,orders;
+SELECT * FROM orders,buyers;

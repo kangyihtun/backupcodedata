@@ -1,0 +1,158 @@
+=>VIEW
+
+=Syntax
+
+= CREATE
+CREATE VIEW viewname AS
+--- statements
+
+= Read
+
+SELECT columns FROM viewtablename;
+
+= Update
+
+CREATE OR REPLACE VIEW viewtablename AS
+--- statements
+
+= DELETE
+
+DROP VIEW IF EXISTS viewtablename;
+
+-----------------------------------------------------------------------
+
+=EXERCISES
+
+CREATE TABLE IF NOT EXISTS shoppers(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    phone VARCHAR(15) NOT NULL UNIQUE
+);
+
+DESC shoppers;
+SHOW INDEX FROM shoppers;
+
+INSERT INTO shoppers(name,phone)
+VALUE('su su','0911111'),
+('tun tun','0922222'),
+('aung aung','0933333');
+
+SELECT * FROM shoppers;
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS products(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    price DECIMAL(10,2) NOT NULL 
+);
+
+DESC products;
+SHOW INDEX FROM products;
+
+INSERT INTO products(name,price)
+VALUE('redbull','1600'),
+('deedo','800'),
+('sponsor','1000');
+
+SELECT * FROM products;
+
+CREATE TABLE IF NOT EXISTS checkouts(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    date TIMESTAMP DEFAULT NOW(),
+    product_id INT NOT NULL,
+    qty INT NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    payment ENUM('VISA','MPU','COD') NOT NULL,
+    shopper_id INT NOT NULL,
+    FOREIGN KEY(shopper_id) REFERENCES shoppers(id),
+    FOREIGN KEY(product_id) REFERENCES products(id)
+);
+
+DESC checkouts;
+SHOW INDEX FROM checkouts;
+
+INSERT INTO checkouts(product_id,qty,total,payment,shopper_id)
+VALUE(1,2,3200,3,1),
+(1,1,1600,1,2),
+(2,2,1600,2,1),
+(3,3,3000,3,2),
+(2,1,800,1,3),
+(1,1,1600,2,3);
+
+SELECT * FROM shoppers;
+SELECT * FROM products;
+SELECT * FROM checkouts;
+
+-----------------------------------------------------------------------
+
+=> AS statement
+
+= Syntax
+
+CREATE TABLE IF NOT EXISTS nametablename AS
+SELECT colun1,column2,column3
+FROM existingtablename;
+
+CREATE TABLE IF NOT EXISTS checkoutbycod AS
+SELECT * FROM checkouts
+WHERE payment = "COD";
+
+DESC checkoutbycod;
+SELECT * FROM checkoutbycod;
+
+CREATE TABLE IF NOT EXISTS checkoutbympu AS
+SELECT checkouts.id,checkouts.product_id,checkouts.qty,checkouts.total,checkouts.payment
+FROM checkouts
+WHERE payment = "MPU";
+
+DESC checkoutbympu;
+SELECT * FROM checkoutbympu;
+
+-------------------------------------------------------------
+
+SELECT checkouts.payment,SUM(checkouts.total) AS totalamount
+FROM checkouts
+GROUP BY checkouts.payment
+ORDER BY payment DESC;
+
+CREATE VIEW vw_paymentreports AS
+SELECT checkouts.payment,SUM(checkouts.total) AS totalamount
+FROM checkouts
+GROUP BY checkouts.payment
+ORDER BY payment DESC;
+
+=>List All Tables
+SHOW TABLES;
+SHOW FULL TABLES;
+SHOW FULL TABLES WHERE TABLE_TYPE LIKE 'BASE TABLE';
+SHOW FULL TABLES IN wdf007 WHERE TABLE_TYPE LIKE 'BASE TABLE';
+
+SHOW FULL TABLES WHERE TABLE_TYPE LIKE 'VIEW';
+SHOW FULL TABLES IN wdf007 WHERE TABLE_TYPE LIKE 'VIEW';
+
+SELECT * FROM vw_paymentreports;
+
+payment	    totalamount	
+COD         6200.00
+MPU         3200.00
+VISA        2400.00
+
+INSERT INTO checkouts(product_id,qty,total,payment,shopper_id)
+VALUE(3,3,3000,3,1);
+
+payment	    totalamount	
+COD         9200.00
+MPU         3200.00
+VISA        2400.00
+
+SELECT * FROM checkouts;
+SELECT * FROM vw_paymentreports;
+
+=>DROP VIEW
+DROP VIEW IF EXISTS vw_paymentreports;
+
+SHOW FULL TABLES IN wdf007 WHERE TABLE_TYPE LIKE 'VIEW';
+-------------------------------------------------------------------------------

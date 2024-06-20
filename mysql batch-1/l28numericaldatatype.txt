@@ -1,0 +1,103 @@
+*result 551.00
+
+INSERT INTO sellitems(name,price)
+VALUE('sponsor',550.9999)
+
+SELECT * FROM sellitems;
+
+INSERT INTO sellitems(name,price)
+VALUE('sponsor',100000);
+
+SELECT * FROM sellitems;
+
+=> FLOAT() vs DOUBLE()
+
+CREATE TABLE IF NOT EXISTS shoppings(
+    name VARCHAR(20),
+    purchaseprice FLOAT,
+    sellprice FLOAT(4)
+);
+
+
+DESC shoppings;
+
+INSERT INTO shoppings(name,purchaseprice,sellprice)
+VALUE('water',100,100),
+('coffee',500,500.34),
+('cake',800,800.56),
+('snack',250,250.990),
+('jam',9000,10000);
+
+SELECT * FROM shoppings;
+
+
+*result 112233
+INSERT INTO shoppings(name,purchaseprice,sellprice)
+VALUE('birdnest',112233.45,112233.45);
+
+SELECT * FROM shoppings;
+
+*result 11223300
+INSERT INTO shoppings(name,purchaseprice,sellprice)
+VALUE('birdnest',11223344.45,11223344.45);
+
+SELECT * FROM shoppings;
+
+*result 1122330000
+INSERT INTO shoppings(name,purchaseprice,sellprice)
+VALUE('birdnest',1122334455.45,1122334455.45);
+
+SELECT * FROM shoppings;
+--------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS buyings(
+    name VARCHAR(20),
+    purchaseprice FLOAT,
+    sellprice DOUBLE
+);
+
+
+DESC shoppings;
+
+INSERT INTO buyings(name,purchaseprice,sellprice)
+VALUE('water',100,100),
+('coffee',500,500.34),
+('cake',800,800.56),
+('snack',250,250.990),
+('jam',9000,10000);
+
+SELECT * FROM buyings;
+
+*result 112233  112233.45
+INSERT INTO buyings(name,purchaseprice,sellprice)
+VALUE('birdnest',112233.45,112233.45);
+
+SELECT * FROM buyings;
+
+*result 11223300  11223344.45
+INSERT INTO buyings(name,purchaseprice,sellprice)
+VALUE('birdnest',11223344.45,11223344.45);
+
+SELECT * FROM buyings;
+
+*result 1122330000  1122334455.45
+INSERT INTO buyings(name,purchaseprice,sellprice)
+VALUE('birdnest',1122334455.45,1122334455.45);
+
+SELECT * FROM buyings;
+
+
+*result 1.12233e15  1122334455667788.5
+INSERT INTO buyings(name,purchaseprice,sellprice)
+VALUE('birdnest',1122334455667788.45,1122334455667788.45);
+
+SELECT * FROM buyings;
+
+-------------------------------------------------------------
+
+=> e/E
+
+HTML input numbe type allow 'e/E' buz 'e' stands for exponential (exponent) which is a numeric symbol
+Eg . 200000 can be written as 2e5 (3e4 = 3x10^4 = 30000)
+^ (cal Caret or Hat)

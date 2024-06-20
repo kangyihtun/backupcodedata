@@ -1,0 +1,140 @@
+CREATE TABLE IF NOT EXISTS vipmembers(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(20),
+    lastname VARCHAR(20),
+    status INT DEFAULT 1
+);
+
+DESC vipmembers;
+
+INSERT INTO vipmembers(firstname,lastname)
+VALUES('aung','aung'),
+('kyaw','kyaw'),
+('zaw','zaw'),
+('aye','aye'),
+('yu','yu');
+
+INSERT INTO vipmembers(firstname,lastname,status)
+VALUES('thu','thu','2'),
+('tun','tun',2),
+('yu','ya',2);
+
+SELECT * FROM vipmembers;
+
+CREATE TABLE IF NOT EXISTS vipmbphones(
+    id INT NOT NULL AUTO_INCREMENT,
+    phone VARCHAR(15) NOT NULL,
+    vipmembers_id INT,
+    PRIMARY KEY(id),
+    FOREIGN KEY(vipmembers_id) REFERENCES vipmembers(id) ON DELETE CASCADE
+);
+
+DESC vipmbphones;
+
+INSERT INTO vipmbphones(phone,vipmembers_id)
+VALUES ('09123456',1),
+('09123456',3),
+('09123456',2),
+('09123456',5),
+('09123456',4);
+
+SELECT * FROM vipmbphones;
+
+
+CREATE TABLE IF NOT EXISTS vipmbpoints(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    points INT DEFAULT 0,
+    vipmembers_id INT,
+    FOREIGN KEY(vipmembers_id) REFERENCES vipmembers(id) ON DELETE CASCADE
+);
+
+DESC vipmbpoints;
+
+INSERT INTO vipmbpoints(points,vipmembers_id)
+VALUES(50,1),
+(100,1),
+(200,3),
+(300,2),
+(400,4),
+(500,5),
+(300,1);
+
+SELECT * FROM vipmbpoints;
+
+=>REPORT
+
+SELECT * FROM vipmembers;
+SELECT * FROM vipmbphones;
+SELECT * FROM vipmbpoints;
+
+=>Active and Block Members REPORT
+
+SELECT CONCAT(firstname,' ',lastname) AS 'active_members' FROM vipmembers
+WHERE status = 1;
+
+SELECT CONCAT(firstname,' ',lastname) AS 'blocked_members' FROM vipmembers
+WHERE status = 2;
+
+SELECT CONCAT(firstname,' ',lastname) AS name,
+CASE 
+    WHEN status = 1 THEN 'Active Member'
+    ELSE "Block Member"
+END AS "Members Status"
+FROM vipmembers;
+
+=>Phone Number Report
+
+SELECT CONCAT(firstname,' ',lastname) AS "Name",phone
+FROM vipmembers
+LEFT JOIN vipmbphones
+ON vipmembers.id = vipmbphones.vipmembers_id;
+
+=>IS NOT NULL 
+
+SELECT CONCAT(firstname,' ',lastname) AS "Name",
+    IF(vipmbphones.phone IS NOT NULL,vipmbphones.phone,"No Phone") As "Phone Status"
+FROM vipmembers
+LEFT JOIN vipmbphones
+ON vipmembers.id = vipmbphones.vipmembers_id;
+
+=>IS NULL 
+
+SELECT CONCAT(firstname,' ',lastname) AS "Name",
+    IF(vipmbphones.phone IS NULL,"No Phone",vipmbphones.phone) As "Phone Status"
+FROM vipmembers
+LEFT JOIN vipmbphones
+ON vipmembers.id = vipmbphones.vipmembers_id;
+
+=>CASE 
+
+SELECT CONCAT(firstname,' ',lastname) AS Name,
+    CASE
+        WHEN vipmbphones.phone IS NOT NULL THEN vipmbphones.phone
+        ELSE "No Phone Number"
+    END AS "Phone Status"
+FROM vipmembers
+LEFT JOIN vipmbphones
+ON vipmembers.id = vipmbphones.vipmembers_id;
+
+=> POint Report 
+
+SELECT CONCAT(firstname," ",lastname) AS "Name",points 
+FROM vipmembers
+LEFT JOIN vipmbpoints
+ON vipmembers.id = vipmbpoints.vipmembers_id
+
+=> Multi LEFT JOIN
+
+SELECT firstname,lastname,phone,points 
+FROM vipmembers
+LEFT JOIN vipmbphones
+ON vipmembers.id = vipmbphones.vipmembers_id
+LEFT JOIN vipmbpoints 
+ON vipmembers.id = vipmbpoints.vipmembers_id;
+
+SELECT firstname,lastname,phone,points  
+FROM vipmembers AS vmb 
+LEFT JOIN vipmbphones AS vmbph
+ON vmb.id = vmbph.vipmembers_id 
+LEFT JOIN vipmbpoints AS vmbpt
+ON vmb.id = vmbpt.vipmembers_id;

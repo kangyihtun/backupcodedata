@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS shirts(
+    shirtid INTI NOT NULL AUTO_INCREMENT,
+    article VARCHAR(100),
+    color VACHAR(100),
+    size VARCHAR(100),
+    PRIMARY KEY(shirtid)
+);
+
+DESC shirts;
+
+INSERT INTO shirts (article,color,size) VALUE('t-shirt','white','S');
+
+INSERT INTO shirts (article,color,size) VALUES
+('t-shirt','green','S'),
+('t-shirt','blue','S'),
+('polo shirt','pink','M'),
+('tank top','red','S'),
+('t-shirt','white','S'),
+('polo-shirt','yellow','L'),
+('t-shirt','violet','XL'),
+('polo shirt','black','S');
+
+SELECT * FROM shirts;
+
+SELECT article,color,size FROM shirt
+WHERE size = "m"
+
+SELECT article,color,size FROM shirt
+WHERE size = "S"
+
+SELECT article,color,size FROM shirt
+WHERE article = 'polo shirt';
+
+UPDATE shirts SET size="L" WHERE article = "polo shirt";
+
+UPDATE shirts article"polo shirt" WHERE article = "plo shirt";
+
+SELECT * FRIM shirts;
+
+

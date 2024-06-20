@@ -1,0 +1,111 @@
+=>Event
+
+Event Type (Schedule)
+(i) One Time Event
+(ii) Recurring Event
+
+=>To see event was ON/OFF
+SHOW PROCESSLIST;
+
+SET GLOBAL event_scheduler = ON;
+SET GLOBAL event_scheduler = OFF;
+
+
+-----------------------------------------------
+
+=>(i) One Time Event
+=>Syntax
+
+=>Method 1
+CREATE EVENT eventname
+ON SCHEDULE AT timestamp
+DO
+statements
+
+=Method 2
+CREATE EVENT eventname
+ON SCHEDULE AT timestamp
+ON COMPLETION PRESERVE
+DO
+statements
+
+
+=>(ii) Recurring
+
+=Method 1
+CREATE EVENT eventname
+ON SCHEDULE EVERY INTERVAL
+STARTS timestamp
+DO 
+statements
+
+=Method 2
+CREATE EVENT eventname
+ON SCHEDULE EVERY INTERVAL
+STARTS timestamp
+END timestamp
+statements
+
+--------------------------------------------
+
+EXECISE 
+=>(i) One Time Event
+
+CREATE TABLE IF NOT EXISITS vipusers(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    emailverfiy
+)
+
+
+CREATE EVENT vipusers_ev
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 30 SECOND
+DO 
+DELETE FROM vipusers WHERE emailverfiy IS NULL;
+
+=>List to all Events
+SHOW EVENTS
+
+SELECT * FROM vipusers;
+SHOW EVENTS
+
+---------------------------------------------------------
+
+(ii) Recurring Event
+
+CREATE TABLE IF NOT EXISTS dailywifipasswords(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    password VARCHAR(8) NOT NULL UNIQUE,
+    status INT DEFAULT 1
+);
+
+DESC dailywifipasswords;
+
+INSERT INTO dailywifipasswords(password,status)
+VALUES('11111',2),
+('22222',2),
+('33333',2),
+('44444',2),
+('55555',1);
+
+SELECT * FROM dailywifipasswords;
+
+SHOW EVENTS;
+
+CREATE EVENT dailywifipasswords_ev
+ON SCHEDULE EVERY 1 DAY
+STARTS "2024-3-10 8:9:00"
+DO
+UPDATE dailywifipasswords SET status = 2
+WHERE status = 1;
+
+SHOW EVENTS;
+
+SELECT * FROM dailywifipasswords;
+
+SHOW EVENT IF EXISITS dailywifipasswords_ev;
+
+SHOW EVENTS;
+
+10EVN
